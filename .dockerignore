@@ -1,0 +1,20 @@
+node_modules
+dist
+coverage
+.git
+.gitignore
+*.md
+*.log
+.vscode
+.idea
+
+# Secrets must never enter the build context
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+*.ppk
+id_rsa*
+id_ed25519*

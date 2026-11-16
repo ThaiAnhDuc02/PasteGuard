@@ -1,0 +1,30 @@
+services:
+  pasteguard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    image: pasteguard:latest
+    container_name: pasteguard
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/cache/nginx
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    # No volumes required — purely static files
+    # No environment variables required — no backend, no secrets in container
+    labels:
+      - "com.pasteguard.description=PasteGuard — browser-based secret detection tool"
+      - "com.pasteguard.version=1.1.0"
